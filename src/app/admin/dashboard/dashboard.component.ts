@@ -8,9 +8,7 @@ import { Component, OnInit , ElementRef, ViewChild } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('reportTable', { static: true }) reportTable: ElementRef | undefined;
-  numberOfUsers: number = 0;
-  numberOfDepartments: number = 0;
-  numberOfEmployees: number = 0;
+
   constructor() {}
 
   

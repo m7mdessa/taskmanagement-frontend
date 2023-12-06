@@ -11,12 +11,13 @@ export class SprintService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getAll(id: any): Observable<any[]> {
+   return this.http.get<any[]>(`${this.apiUrl}/Project/${id}/Sprints`);
+   
   }
 
-  getById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/GetSprintById/${id}`);
+  getById(projectId: number,id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Project/${projectId}/Sprint/${id}`);
   }
 
   add(sprint: any): Observable<any> {
@@ -27,7 +28,7 @@ export class SprintService {
     return this.http.put(`${this.apiUrl}/Update/`, sprint);
   }
 
-  delete(projectId: number, sprintId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/Delete/${projectId}${sprintId}`);
+  delete(projectId: number, sprintid: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/Project/${projectId}/Delete/Sprints/${sprintid}`);
   }
 }

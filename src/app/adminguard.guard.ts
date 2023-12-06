@@ -20,7 +20,7 @@ export class adminguardGuard implements CanActivate {
               console.log(user,"user");
               console.log(roleId,"roleId");
       
-                if (roleId === '1') {
+                if (roleId === '2') {
                   return true;
                 } 
                 else {

@@ -20,14 +20,31 @@
         -->   
        
         <li>
-            <a routerLink="/admin/Employees"><span>Employees</span></a>
+            <a routerLink="/admin/Projrcts"><span>Projrcts</span></a>
     
         </li>
         <li>
-            <a routerLink="/admin/Departments"><span>Departments</span></a>
+            <a routerLink="/admin/Sprints"><span>Sprints</span></a>
     
         </li>
-           
+        <li>
+          <a routerLink="/admin/Tasks"><span>Tasks</span></a>
+  
+        </li>
+
+        <li>
+          <a routerLink="/admin/Developers"><span>Developers</span></a>
+  
+        </li>
     </ul>
     </div>
   </aside>
+  <div class="navbar-right">
+    <ul class="navbar-nav">
+     <!-- <li><a h class="main_search" (click)="OpenDialogSearch()"title="Search..."><i class="zmdi zmdi-search"></i></a></li>
+        
+        <li><a routerLink="/admin/profile"  title="Account"><i class="zmdi zmdi-account-circle"></i></a></li>    -->   
+       
+        <li><a (click)="logout()" class="mega-menu" title="Sign Out"><i class="zmdi zmdi-power"></i></a></li>
+    </ul>
+</div>

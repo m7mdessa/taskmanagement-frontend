@@ -50,12 +50,12 @@ export class AuthService {
  
       localStorage.setItem('user', JSON.stringify(data));
   
-      if (data.RoleId == "1") {
+      if (data.RoleId == "2") {
         this.toastr.success('Welcome On Admin Dashboard');
         this.router.navigate(['admin']);
-      } else if (data.RoleId == "2") {
-        this.toastr.success('Welcome On Employee Profile');
-        this.router.navigate(['employee/Profile']);
+      } else if (data.RoleId == "3") {
+        this.toastr.success('Welcome On Devloper Profile');
+        this.router.navigate(['developer/Profile']);
       } else {
         this.toastr.error('Something wrong!!');
         this.router.navigate(['']);

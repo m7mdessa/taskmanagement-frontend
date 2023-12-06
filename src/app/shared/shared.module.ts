@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { DatePipe } from '@angular/common';
+import { TaskDurationPipe } from '../admin/task-duration.pipe';
 
 
 
@@ -47,7 +48,9 @@ import { DatePipe } from '@angular/common';
      MatToolbarModule,
      MatDatepickerModule,
      MatNativeDateModule,
-     DatePipe
+     DatePipe,
+     
+     
   ],
   exports:[
     MatCardModule,

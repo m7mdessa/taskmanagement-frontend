@@ -8,6 +8,7 @@ import { TasksComponent } from './tasks/tasks.component';
 import { SharedModule } from '../shared/shared.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DevelopersComponent } from './developers/developers.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     TasksComponent,
     SidebarComponent,
     DashboardComponent,
+    DevelopersComponent,
 
   ],
   imports: [

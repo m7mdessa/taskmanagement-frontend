@@ -2,24 +2,24 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { ProjectService } from 'src/app/service/project.service';
+import { DeveloperService } from 'src/app/service/developer.service';
 
 @Component({
-  selector: 'app-projrcts',
-  templateUrl: './projrcts.component.html',
-  styleUrls: ['./projrcts.component.css']
+  selector: 'app-developers',
+  templateUrl: './developers.component.html',
+  styleUrls: ['./developers.component.css']
 })
-export class ProjrctsComponent {
+export class DevelopersComponent {
   @ViewChild('callCreateDialog') callCreateDialog! :TemplateRef<any>
   @ViewChild('callDeleteDailog') callDelete!:TemplateRef<any>
   @ViewChild('callEditDailog') callEditDailog!:TemplateRef<any>
   @ViewChild('callDetailDailog') callDetailDailog!:TemplateRef<any>
 
-  projects: any[] = [];
-  project: any;
+  developers: any[] = [];
+  developer: any;
   
 
-    constructor(private projectService: ProjectService,private dialog:MatDialog,private toastr: ToastrService) {}
+    constructor(private developerService: DeveloperService,private dialog:MatDialog,private toastr: ToastrService) {}
   
  
     ngOnInit(): void {
@@ -28,22 +28,26 @@ export class ProjrctsComponent {
     }
     
     getAll() {
-      this.projectService.getAll().subscribe((projects) => {
-        this.projects = projects;
+      this.developerService.getAll().subscribe((developers) => {
+        this.developers = developers;
       });
   
     }
 
  
     form :FormGroup = new FormGroup({
-      projectName: new FormControl('',[Validators.required]),
-   
+      userName: new FormControl('',[Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email: new FormControl('',[Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
     });
     
     edit :FormGroup = new FormGroup({
       id: new FormControl(''),
-      projectName: new FormControl('',[Validators.required]),
-
+      userName: new FormControl('',[Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email: new FormControl('',[Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
     });
 
 OpenDialogAdd(){
@@ -55,30 +59,34 @@ OpenDialogAdd(){
   OpenDialogDetail(id:number){
     
     this.dialog.open(this.callDetailDailog);
-    this.projectService.getById(id).subscribe( (project) => {
-        this.project = project;
+    this.developerService.getById(id).subscribe( (developer) => {
+        this.developer = developer;
       
       });  
     }
 
 
-  openEditDailog(project: any){
+  openEditDailog(developer: any){
     this.edit.setValue({
-      id: project.id,
-      projectName: project.projectName,
+      id: developer.id,
+      userName: developer.userName,
+      firstName: developer.firstName,
+      lastName: developer.lastName,
+      email: developer.email,
     
     });
+    
     const dialogRef= this.dialog.open(this.callEditDailog);
     dialogRef.afterClosed().subscribe((result)=>{
        if(result!=undefined)
        {
         if (result == 'yes') {
-          this.projectService.update(this.edit.value).subscribe(
+          this.developerService.update(this.edit.value).subscribe(
             (response) => {
               console.log( this.edit.value);
       
-              console.log('Project updated successfully:', response);
-              this.toastr.success('Project updated successfully.', 'Success');
+              console.log('Developer updated successfully:', response);
+              this.toastr.success('Developer updated successfully.', 'Success');
               this.getAll(); 
               this.dialog.closeAll();      
     
@@ -87,8 +95,8 @@ OpenDialogAdd(){
             (error) => {
               console.log( this.edit.value);
       
-              console.log('Error while update Project:', error);
-                this.toastr.error('Error while update Project.', 'Error'); 
+              console.log('Error while update Developer:', error);
+                this.toastr.error('Error while update Developer.', 'Error'); 
       
             }
           );       
@@ -110,18 +118,18 @@ OpenDialogAdd(){
        if(result!=undefined)
        {
         if (result == 'yes') {
-          this.projectService.delete(id).subscribe(
+          this.developerService.delete(id).subscribe(
             () => {
-              this.projects = this.projects.filter((project) => project.id !== id);
-              console.log('Project deleted successfully.');
-              this.toastr.success('Project deleted successfully.', 'Success');
+              this.developers = this.developers.filter((developer) => developer.id !== id);
+              console.log('Developer deleted successfully.');
+              this.toastr.success('Developer deleted successfully.', 'Success');
 
               this.dialog.closeAll(); 
               this.getAll();
      
             },
             (error) => {
-              console.log('Error while deleting Project:', error);
+              console.log('Error while deleting developer:', error);
             }
           );         
         } else if (result == 'no') {
@@ -136,9 +144,9 @@ OpenDialogAdd(){
 
    add() {
 
-      this.projectService.add(this.form.value).subscribe((resp:any)=>{
+      this.developerService.add(this.form.value).subscribe((resp:any)=>{
 
-        this.toastr.success('Project Added successfully.', 'Success');
+        this.toastr.success('Developer Added successfully.', 'Success');
         this.getAll();
         this.dialog.closeAll();      
         this.form.reset();

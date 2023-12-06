@@ -5,9 +5,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class DeveloperService {
-
-  private apiUrl = 'https://localhost:7212/api/Developers';
+export class UserService {
+  private apiUrl = 'https://localhost:7212/api/Users';
 
   constructor(private http: HttpClient) { }
 
@@ -16,17 +15,18 @@ export class DeveloperService {
   }
 
   getById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/GetDeveloperById/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/GetUserById/${id}`);
   }
 
-  add(developer: any): Observable<any> {
-    return this.http.post(this.apiUrl, developer);
+  add(user: any): Observable<any> {
+    return this.http.post(this.apiUrl, user);
   }
 
-  update(developer: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/Update/`, developer);
+  update(user: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/Update/`, user);
   }
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/Delete/${id}`);
-  }}
+  }
+}
