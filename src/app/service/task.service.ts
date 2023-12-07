@@ -18,12 +18,17 @@ export class TaskService {
    getById(projectId: any,id: number): Observable<any> {
      return this.http.get<any>(`${this.apiUrl}/Project/${projectId}/SprintTask/${id}`);
    }
+
   add(task: any): Observable<any> {
     return this.http.post(this.apiUrl, task);
   }
 
   update(task: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/Update/`, task);
+
+  const url = `${this.apiUrl}/Update/`; 
+
+  return this.http.put(url, task);
+
   }
 
 

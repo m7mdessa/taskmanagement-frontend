@@ -78,11 +78,11 @@ export class TasksComponent {
     
     edit :FormGroup = new FormGroup({
       id: new FormControl(''),
+      sprintId: new FormControl('',[Validators.required]),
       taskName: new FormControl('',[Validators.required]),
       taskDescription: new FormControl('',[Validators.required]),
-      taskStatus: new FormControl('',[Validators.required]),
-      sprintId: new FormControl('',[Validators.required]),
       developerId: new FormControl('',[Validators.required]),
+      taskStatus: new FormControl('',[Validators.required]),
     });
 
 OpenDialogAdd(){
@@ -110,11 +110,11 @@ OpenDialogAdd(){
   openEditDailog(task: any){
     this.edit.setValue({
       id: task.id,
-      taskName: task.taskName,
-      taskStatus: task.taskStatus,
-      taskDescription: task.taskDescription,
       sprintId: task.sprintId,
+      taskName: task.taskName,
+      taskDescription: task.taskDescription,
       developerId: task.developerId,
+      taskStatus: task.taskStatus,
     });
 
     const dialogRef= this.dialog.open(this.callEditDailog);

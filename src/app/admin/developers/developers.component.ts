@@ -17,7 +17,8 @@ export class DevelopersComponent {
 
   developers: any[] = [];
   developer: any;
-  
+  hide = true;
+  hidee = true;
 
     constructor(private developerService: DeveloperService,private dialog:MatDialog,private toastr: ToastrService) {}
   
@@ -36,20 +37,29 @@ export class DevelopersComponent {
 
  
     form :FormGroup = new FormGroup({
-      userName: new FormControl('',[Validators.required]),
+      developerName: new FormControl('',[Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl('',[Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+  
     });
     
     edit :FormGroup = new FormGroup({
       id: new FormControl(''),
-      userName: new FormControl('',[Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl('',[Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
     });
-
+    matchError() {
+      if (this.form.controls['password'].value === this.form.controls['confirmPassword'].value) {
+        this.form.controls['confirmPassword'].setErrors(null);
+      } else {
+        this.form.controls['confirmPassword'].setErrors({ misMatch: true });
+      }
+    }
+  
 OpenDialogAdd(){
     
   this.dialog.open(this.callCreateDialog);
@@ -69,7 +79,6 @@ OpenDialogAdd(){
   openEditDailog(developer: any){
     this.edit.setValue({
       id: developer.id,
-      userName: developer.userName,
       firstName: developer.firstName,
       lastName: developer.lastName,
       email: developer.email,

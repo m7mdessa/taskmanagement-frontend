@@ -88,10 +88,9 @@ OpenDialogAdd(){
        {
         if (result == 'yes') {
           this.sprintService.update(this.edit.value).subscribe(
-            (response) => {
+            () => {
               console.log( this.edit.value);
       
-              console.log('Sprint updated successfully:', response);
               this.toastr.success('Sprint updated successfully.', 'Success');
               this.getProjects(); 
               this.dialog.closeAll();      
@@ -125,7 +124,6 @@ OpenDialogAdd(){
         if (result === 'yes') {
           this.sprintService.delete(projectId, sprintid).subscribe(
             () => {
-              // Correct the filter function
               this.sprints = this.sprints.filter((sprint) => sprint.id !== sprintid);
   
               console.log('Sprint deleted successfully.');

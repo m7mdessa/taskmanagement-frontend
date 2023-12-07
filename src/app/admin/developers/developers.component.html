@@ -42,9 +42,7 @@
                               </thead>
                               <tbody>
                                   <tr *ngFor="let developer of developers">
-                                    
-                                      <td><span class="text-muted">{{ developer.userName }}</span></td>
-                                      
+                                      <td><span class="text-muted">{{ developer.developerName }}</span></td>
                                       <td><span class="text-muted">{{ developer.firstName }}</span></td>
                                       <td><span class="text-muted">{{ developer.lastName }}</span></td>
                                       <td><span class="text-muted">{{ developer.email }}</span></td>
@@ -80,11 +78,12 @@
       </div>
       <form class="example-container" [formGroup]="form">
        
-            <mat-form-field appearance="outline">
-            <mat-label>Enter Developer Name</mat-label>
-            <textarea matInput type="text" placeholder="Enter developer Name" formControlName="userName"></textarea>
-            <mat-error *ngIf="form.get('userName')?.hasError('required')">developer name is required</mat-error>
-            </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Enter Developer Name</mat-label>
+          <input matInput type="text" placeholder="Enter user name" formControlName="developerName">
+          <mat-error *ngIf="form.get('developerName')?.hasError('required')">Developer name is required</mat-error>
+        </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Enter First Name</mat-label>
@@ -110,7 +109,31 @@
                 <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
                 <mat-error *ngIf="form.get('email')?.hasError('pattern')">Invalid email format</mat-error>
               </mat-form-field>
-            
+
+              <mat-form-field appearance="outline">
+                <mat-label>Enter password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter password" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+                <mat-error *ngIf="form.get('password')?.hasError('minlength')">Password must be at least 8 </mat-error>
+      
+              </mat-form-field>
+              <div class="form-field-spacer"></div>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Confirm password</mat-label>
+                <input matInput [type]="hidee ? 'password' : 'text'" placeholder="Confirm password" formControlName="confirmPassword"(change)="matchError()">
+                <button mat-icon-button matSuffix (click)="hidee = !hidee" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidee">
+                  <mat-icon>{{hidee ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('confirmPassword')?.hasError('required')">Confirm password is required</mat-error>
+                <mat-error *ngIf="form.get('confirmPassword')?.hasError('minlength')">Password must be at least 8</mat-error>
+      
+                <mat-error *ngIf="form.get('confirmPassword')?.hasError('misMatch')">Passwords do not match</mat-error>
+      
+              </mat-form-field>
+      
          
     
         <div class="dialog-footer">
@@ -139,7 +162,6 @@
   
 
   <div *ngIf="developer">
-    <p><strong>Developer Name:</strong> {{ developer.userName }}</p>
     <p><strong>First Name:</strong> {{ developer.firstName }}</p>
     <p><strong>Last Name:</strong> {{ developer.lastName }}</p>
     <p><strong>Email:</strong> {{ developer.email }}</p>
@@ -154,11 +176,7 @@
 </div>
 <form class="example-container" [formGroup]="edit">
 
-    <mat-form-field appearance="outline">
-        <mat-label>Enter Developer Name</mat-label>
-        <textarea matInput type="text" placeholder="Enter developer Name" formControlName="userName"></textarea>
-        <mat-error *ngIf="edit.get('userName')?.hasError('required')">developer name is required</mat-error>
-        </mat-form-field>
+    
         <mat-form-field appearance="outline">
             <mat-label>Enter First Name</mat-label>
             <input matInput type="text" placeholder="Enter first name" formControlName="firstName">
