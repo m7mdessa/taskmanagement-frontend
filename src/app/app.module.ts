@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../Interceptor/token.interceptor';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     AppRoutingModule,
     SharedModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxSpinnerModule
 
   ],
   

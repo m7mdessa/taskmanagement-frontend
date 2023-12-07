@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { SprintService } from 'src/app/service/sprint.service';
 import { TaskService } from 'src/app/service/task.service';
-import { UserService } from 'src/app/service/user.service';
 import { TaskDurationPipe } from '../task-duration.pipe';
 import { ProjectService } from 'src/app/service/project.service';
 import { DeveloperService } from 'src/app/service/developer.service';
@@ -44,7 +43,7 @@ export class TasksComponent {
   getProjects() {
     this.projectService.getAll().subscribe((projects) => {
       this.projects = projects;
-      const id = this.projects.map(project => project.id);
+      const id = this.projects.map((project) => project.id) as unknown as number;
 
       this.sprintService.getAll(id).subscribe((sprints) => {
         this.sprints = sprints;
@@ -94,7 +93,7 @@ OpenDialogAdd(){
     
       this.projectService.getAll().subscribe((projects) => {
         this.projects = projects;
-        const projectId = this.projects.map(project => project.id);
+        const projectId = this.projects.map((project) => project.id) as unknown as number;
 
     this.dialog.open(this.callDetailDailog);
     this.taskService.getById(projectId,id).subscribe( (task) => {
@@ -122,25 +121,21 @@ OpenDialogAdd(){
        if(result!=undefined)
        {
         if (result == 'yes') {
-          this.taskService.update(this.edit.value).subscribe(
-            (response) => {
+          this.taskService.update(this.edit.value).subscribe({
+            next: (response) => {
               console.log("edit", this.edit.value);
-      
               console.log('Task updated successfully:', response);
               this.toastr.success('Task updated successfully.', 'Success');
               this.getProjects(); 
-              this.dialog.closeAll();      
-    
-            
+              this.dialog.closeAll();
             },
-            (error) => {
-              console.log( this.edit.value);
-      
-              console.log('Error while update Task:', error);
-                this.toastr.error('Error while update Task.', 'Error'); 
-      
+            error: (error) => {
+              console.log(this.edit.value);
+              console.log('Error while updating Task:', error);
+              this.toastr.error('Error while updating Task.', 'Error');
             }
-          );       
+          });
+                
         } else if (result == 'no') {
           console.log("Thank you");
         }
@@ -162,22 +157,21 @@ OpenDialogAdd(){
           
           this.projectService.getAll().subscribe((projects) => {
             this.projects = projects;
-            const projectId = this.projects.map(project => project.id);
+            const projectId = this.projects.map((project) => project.id) as unknown as number;
       
-            this.taskService.delete(projectId,sprintId,sprintTaskId).subscribe(
-              () => {
+            this.taskService.delete(projectId, sprintId, sprintTaskId).subscribe({
+              next: () => {
                 this.sprintTasks = this.sprintTasks.filter((task) => task.sprintId !== sprintId);
                 console.log('Task deleted successfully.');
                 this.toastr.success('Task deleted successfully.', 'Success');
-  
-                this.dialog.closeAll(); 
+                this.dialog.closeAll();
                 this.getProjects();
-       
               },
-              (error) => {
+              error: (error) => {
                 console.log('Error while deleting Task:', error);
               }
-            );  
+            });
+            
         
           });
                 
@@ -193,17 +187,17 @@ OpenDialogAdd(){
 
    add() {
 
-      this.taskService.add(this.form.value).subscribe((resp:any)=>{
-
-        this.toastr.success('Task Added successfully.', 'Success');
+    this.taskService.add(this.form.value).subscribe({
+      next: () => {
+        this.toastr.success('Task added successfully.', 'Success');
         this.getProjects();
-        this.dialog.closeAll();      
+        this.dialog.closeAll();
         this.form.reset();
-
-      },err=>{
-        
-        this.toastr.error('Something went wrong !!', 'error');
-  
-      });
+      },
+      error: () => {
+        this.toastr.error('Something went wrong!', 'Error');
+      }
+    });
+    
     }
 }

@@ -34,7 +34,7 @@ export class SprintsComponent {
   getProjects() {
     this.projectService.getAll().subscribe((projects) => {
       this.projects = projects;
-      const id = this.projects.map(project => project.id);
+      const id = this.projects.map((project) => project.id) as unknown as number;
 
       this.sprintService.getAll(id).subscribe((sprints) => {
         this.sprints = sprints;

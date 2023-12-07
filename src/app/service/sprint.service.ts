@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class SprintService {
 
-  private apiUrl = 'https://localhost:7212/api/Sprints';
+  private apiUrl = 'https://localhost:7212/api/Projects';
 
   constructor(private http: HttpClient) { }
 
-  getAll(id: any): Observable<any[]> {
+  getAll(id: number): Observable<any[]> {
    return this.http.get<any[]>(`${this.apiUrl}/Project/${id}/Sprints`);
    
   }
@@ -21,14 +21,17 @@ export class SprintService {
   }
 
   add(sprint: any): Observable<any> {
-    return this.http.post(this.apiUrl, sprint);
+
+    const url = `${this.apiUrl}/Project/CreateSprint`; 
+
+    return this.http.post(url, sprint);
   }
 
   update(sprint: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/Update/`, sprint);
+    return this.http.put(`${this.apiUrl}/Sprint/Update/`, sprint);
   }
 
   delete(projectId: number, sprintid: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/Project/${projectId}/Delete/Sprints/${sprintid}`);
+    return this.http.delete(`${this.apiUrl}/Project/${projectId}/Delete/Sprint/${sprintid}`);
   }
 }
