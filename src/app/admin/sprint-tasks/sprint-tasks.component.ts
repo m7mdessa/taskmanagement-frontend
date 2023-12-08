@@ -40,7 +40,7 @@ export class SprintTasksComponent {
   getProjects() {
     this.projectService.getAll().subscribe((projects) => {
       this.projects = projects;
-      const id = this.projects.map((project) => project.id) as unknown as number;
+      const id = this.projects.map((project) => project.id) ;
 
       this.sprintService.getAll(id).subscribe((sprints) => {
         this.sprints = sprints;

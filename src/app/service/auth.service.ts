@@ -12,9 +12,6 @@ import { ToastrService } from 'ngx-toastr';
 
 export class AuthService {
 
-
-
-
   constructor(public http: HttpClient,private router: Router,private toastr:ToastrService) { }
 
 

@@ -10,7 +10,7 @@ export class SprintTaskService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(id: number): Observable<any[]> {
+  getAll(id: any): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/Project/${id}/SprintTasks`);
     
    }

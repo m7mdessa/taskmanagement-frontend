@@ -11,12 +11,12 @@ export class SprintService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(id: number): Observable<any[]> {
+  getAll(id: any): Observable<any[]> {
    return this.http.get<any[]>(`${this.apiUrl}/Project/${id}/Sprints`);
    
   }
 
-  getById(projectId: number,id: number): Observable<any> {
+  getById(projectId: any,id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/Project/${projectId}/Sprint/${id}`);
   }
 
