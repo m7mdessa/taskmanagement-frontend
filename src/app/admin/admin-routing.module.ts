@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProjrctsComponent } from './projrcts/projrcts.component';
 import { SprintsComponent } from './sprints/sprints.component';
-import { TasksComponent } from './tasks/tasks.component';
+import { SprintTasksComponent } from './sprint-tasks/sprint-tasks.component';
 import { DevelopersComponent } from './developers/developers.component';
 
 const routes: Routes = [  
@@ -14,7 +14,8 @@ const routes: Routes = [
 
 {path:'Sprints', component:SprintsComponent},
 
-{path:'Tasks', component:TasksComponent},
+{path:'Sprint-Tasks', component:SprintTasksComponent},
+
 {path:'Developers', component:DevelopersComponent},
 
 

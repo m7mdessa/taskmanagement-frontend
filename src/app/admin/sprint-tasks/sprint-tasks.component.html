@@ -1,0 +1,229 @@
+
+
+<app-sidebar></app-sidebar>
+<section class="content">
+  <div class="body_scroll">
+      <div class="block-header">
+          <div class="row">
+              <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>Sprint Task</h2>
+                    <br>
+                  <ul class="breadcrumb">
+                      <li class="breadcrumb-item"><a><i class="zmdi zmdi-home"></i> Admin</a></li>
+                      <li class="breadcrumb-item active">Sprint Tasks List</li>
+                  </ul>
+                  <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
+              </div>
+              <div class="col-lg-5 col-md-6 col-sm-12">                
+  <button mat-fab color="primary"class="add-button"(click)="OpenDialogAdd()" aria-label="Example icon button with a delete icon">
+        <mat-icon  class="icon">add</mat-icon>
+      </button>
+              </div>
+          </div>
+      </div>
+      <br>
+      <br>
+
+      <div class="container-fluid">
+          <div class="row clearfix">
+              <div class="col-lg-12">
+                  <div class="card">
+                      <div class="table-responsive">
+                        <table class="table table-hover product_item_list c_table theme-color mb-0">
+                          <thead>
+                                  <tr>
+                                      <th style="color: #555;">Task Name</th>
+                                      <th style="color: #555;">Task Description</th>
+                                      <th style="color: #555;">Task Status</th>
+                                      <th style="color: #555;">Task Duration</th>
+                                      <th style="color: #555;">Sprint Name</th>
+                                      <th style="color: #555;">Developer Name</th>
+
+                                      <th  style="color: #555;" data-breakpoints="sm xs md">Action</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let sprintTask of sprintTasks">
+                                    
+                                      <td><span class="text-muted">{{ sprintTask.taskName }}</span></td>
+                                      <td><span class="text-muted">{{ sprintTask.taskDescription }}</span></td>
+                                      <td><span class="text-muted">{{ sprintTask.taskStatus }}</span></td>
+                                      <td><span class="text-muted">{{ sprintTask.taskDuration }}</span></td>
+                                      <td><span class="text-muted">{{ sprintTask.sprintName }}</span></td>
+                                      <td><span class="text-muted">{{ sprintTask.developerName }}</span></td>
+
+
+                                      <td>
+                                        <a (click)="OpenDialogDetail(sprintTask.id)"class="btn btn-default waves-effect waves-float btn-sm waves-green"><i class="zmdi zmdi-info"></i></a>
+                                        <a (click)="openEditDailog(sprintTask)"class="btn btn-default waves-effect waves-float btn-sm waves-green"><i class="zmdi zmdi-edit"></i></a>
+                                        <a (click)="openDeleteDailog(sprintTask.sprintId ,sprintTask.id)" class="btn btn-default waves-effect waves-float btn-sm waves-red"><i class="zmdi zmdi-delete"></i></a>
+                                      </td>
+                                  
+                                  </tr>
+                                 
+                                
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  <div class="card">
+                      <div >                            
+                          
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+  <ng-template #callCreateDialog>
+    <div class="mat-dialog-container">
+      <div class="dialog-header">
+        <h2>Add Sprint Task</h2>
+      </div>
+      <form class="example-container" [formGroup]="form">
+       
+            <mat-form-field appearance="outline">
+            <mat-label>Enter Task Name</mat-label>
+            <textarea matInput type="text" placeholder="Enter Task Name" formControlName="taskName"></textarea>
+            <mat-error *ngIf="form.get('taskName')?.hasError('required')">Task name is required</mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+            <mat-label>Enter Task Description</mat-label>
+            <textarea matInput type="text" placeholder="Enter Task Name" formControlName="taskDescription"></textarea>
+            <mat-error *ngIf="form.get('taskDescription')?.hasError('required')">Task Description is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Enter Task Duration</mat-label>
+                <input matInput [matDatepicker]="picker"formControlName="taskDuration">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="form.get('taskDuration')?.hasError('required')">Task Duration is required</mat-error>
+
+              </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Select Developer</mat-label>
+              <mat-select formControlName="developerId" required>
+              <mat-option *ngFor="let developer of developers" [value]="developer.id">
+                {{ developer.developerName }}
+              </mat-option>
+              </mat-select>
+              
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Select Sprint</mat-label>
+              <mat-select formControlName="sprintId" required>
+              <mat-option *ngFor="let sprint of sprints" [value]="sprint.id">
+                {{sprint.sprintName}}
+              </mat-option>
+              </mat-select>
+              
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Select Project</mat-label>
+            <mat-select formControlName="projectId" required>
+            <mat-option *ngFor="let project of projects" [value]="project.id">
+              {{project.projectName}}
+            </mat-option>
+            </mat-select>
+            
+          </mat-form-field>
+          
+               
+    
+           
+        <div class="dialog-footer">
+          <button mat-raised-button color="primary" (click)="add()" [disabled]="!form.valid">Add</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template #callDeleteDailog>
+    <div style="padding:15px">
+<h2>Are you sure you want to delete this sprint task?</h2>
+<button class="btn btn-primary m-1"   mat-dialog-close="yes">Yes</button>
+<button class="btn btn-danger m-1"  mat-dialog-close="no">No</button> 
+</div>
+</ng-template>  
+      
+
+
+<ng-template #callDetailDailog>
+  <div class="mat-dialog-container">
+  <div class="dialog-header">
+  <h2>Sprint Task Detail</h2>
+  </div>
+  
+  
+
+  <div *ngIf="sprintTask">
+    <p><strong>Task Name:</strong> {{ sprintTask.taskName }}</p>
+    <p><strong>Task Description:</strong> {{ sprintTask.taskDescription }}</p>
+    <p><strong>Sprint Name:</strong> {{ sprintTask.sprintName }}</p>
+    <p><strong>Developer Name:</strong> {{ sprintTask.developerName }}</p>
+    <p><strong>Task Status:</strong> {{ sprintTask.taskStatus }}</p>
+
+  </div>
+  </div>
+</ng-template>
+
+<ng-template #callEditDailog>
+<div class="mat-dialog-container">
+<div class="dialog-header">
+<h2>Edit Sprint Task</h2>
+</div>
+<form class="example-container" [formGroup]="edit">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Enter Task Name</mat-label>
+    <textarea matInput type="text" placeholder="Enter Task Name" formControlName="taskName"></textarea>
+    <mat-error *ngIf="edit.get('taskName')?.hasError('required')">Task name is required</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+    <mat-label>Enter Task Description</mat-label>
+    <textarea matInput type="text" placeholder="Enter Task Name" formControlName="taskDescription"></textarea>
+    <mat-error *ngIf="edit.get('taskDescription')?.hasError('required')">Task Description is required</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Task Status</mat-label>
+      <mat-select formControlName="taskStatus" required>
+        <mat-option value="Not Started">Not Started</mat-option>
+        <mat-option value="In Progress">In Progress</mat-option>
+        <mat-option value="Completed">Completed</mat-option>
+      </mat-select>
+      <mat-error *ngIf="edit.get('taskStatus')?.hasError('required')">Task Status is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Select Developer</mat-label>
+      <mat-select formControlName="developerId" required>
+      <mat-option *ngFor="let developer of developers" [value]="developer.id">
+        {{ developer.firstName }}
+      </mat-option>
+      </mat-select>
+      
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Select Sprint</mat-label>
+      <mat-select formControlName="sprintId" required>
+      <mat-option *ngFor="let sprint of sprints" [value]="sprint.id">
+        {{sprint.sprintName}}
+      </mat-option>
+      </mat-select>
+      
+    </mat-form-field>
+
+<div class="dialog-footer">
+<button mat-raised-button color="primary"  mat-dialog-close="yes" >Edit</button>
+</div>
+</form>
+</div>
+</ng-template>
