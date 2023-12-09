@@ -13,6 +13,7 @@ import { SprintTaskService } from 'src/app/service/sprint-task.service';
   styleUrls: ['./sprint-tasks.component.css']
 })
 export class SprintTasksComponent {
+[x: string]: any;
   @ViewChild('callCreateDialog') callCreateDialog! :TemplateRef<any>
   @ViewChild('callDeleteDailog') callDelete!:TemplateRef<any>
   @ViewChild('callEditDailog') callEditDailog!:TemplateRef<any>
@@ -24,6 +25,8 @@ export class SprintTasksComponent {
   sprintTask: any;
   projects: any[]=[];
 
+  selectedProjectId: any;
+
 
     constructor(private taskService: SprintTaskService,  private sprintService: SprintService,  private developerService: DeveloperService
       ,  private projectService: ProjectService ,private toastr: ToastrService,private dialog:MatDialog) {}
@@ -32,27 +35,42 @@ export class SprintTasksComponent {
     ngOnInit(): void {
       this.getDevelopers();
       this.getProjects();
-
+      this.getSprintTasks();
     }
     
-   
+    
+    getProjects() {
+      this.projectService.getAll().subscribe((projects) => {
+        this.projects = projects;
+    
+        if (this.selectedProjectId) {
+
+          this.sprintService.getAll(this.selectedProjectId).subscribe((sprints) => {
+            this.sprints = sprints;
+          });
   
-  getProjects() {
-    this.projectService.getAll().subscribe((projects) => {
-      this.projects = projects;
-      const id = this.projects.map((project) => project.id) ;
-
-      this.sprintService.getAll(id).subscribe((sprints) => {
-        this.sprints = sprints;
+        }
       });
-      
-      this.taskService.getAll(id).subscribe((sprintTasks) => {
-        this.sprintTasks = sprintTasks;
+    }
+    
+    
+    getSprintTasks() {
+      this.projectService.getAll().subscribe((projects) => {
+        this.projects = projects;
+    
+        this.projects.forEach((project) => {
+          const projectId = project.id;
+    
+          this.taskService.getAll(projectId).subscribe((sprintTasks) => {
+            project.sprintTasks = sprintTasks;
+            console.log("sprintTasks", sprintTasks);
+
+
+          });
+        });
       });
-    });
-
-  }
-
+    }
+    
 
   getDevelopers() {
     this.developerService.getAll().subscribe((developers) => {
@@ -60,7 +78,27 @@ export class SprintTasksComponent {
     });
 
   }
- 
+  formatTaskDuration(taskDuration: number): string {
+    const days = Math.floor(taskDuration / (60 * 24));
+    const hours = Math.floor((taskDuration % (60 * 24)) / 60);
+    const minutes = taskDuration % 60;
+
+    const formattedDuration = [];
+
+    if (days > 0) {
+      formattedDuration.push(`${days}d`);
+    }
+
+    if (hours > 0) {
+      formattedDuration.push(`${hours}h`);
+    }
+
+    if (minutes > 0 || formattedDuration.length === 0) {
+      formattedDuration.push(`${minutes}m`);
+    }
+
+    return formattedDuration.join(' ');
+  }
     form :FormGroup = new FormGroup({
       taskName: new FormControl('',[Validators.required]),
       taskDescription: new FormControl('',[Validators.required]),
@@ -79,6 +117,7 @@ export class SprintTasksComponent {
       taskDescription: new FormControl('',[Validators.required]),
       developerId: new FormControl('',[Validators.required]),
       taskStatus: new FormControl('',[Validators.required]),
+      projectId: new FormControl('',[Validators.required]),
 
     });
 
@@ -87,22 +126,21 @@ OpenDialogAdd(){
   this.dialog.open(this.callCreateDialog);
   
   }
-
-  OpenDialogDetail(id:number){
-    
-      this.projectService.getAll().subscribe((projects) => {
-        this.projects = projects;
-        const projectId = this.projects.map((project) => project.id) as unknown as number;
-
-    this.dialog.open(this.callDetailDailog);
-    this.taskService.getById(projectId,id).subscribe( (sprintTask) => {
-        this.sprintTask = sprintTask;
-      
+  OpenDialogDetail(id: number) {
+    this.projectService.getById(id).subscribe((project) => {
+      // Assuming projectService.getById returns a single project
+      const projectId = project.id;
+  
+      // Now use the projectId to fetch tasks
+      this.taskService.getById(projectId,id).subscribe((sprintTasks) => {
+        this.sprintTasks = sprintTasks;
+  
+        // Open the dialog or perform any other logic with the sprintTasks
+        this.dialog.open(this.callDetailDailog);
       });
-      
     });
-
-    }
+  }
+  
 
 
   openEditDailog(sprintTask: any){
@@ -113,6 +151,8 @@ OpenDialogAdd(){
       taskDescription: sprintTask.taskDescription,
       developerId: sprintTask.developerId,
       taskStatus: sprintTask.taskStatus,
+      projectId: sprintTask.projectId,
+
     });
 
     const dialogRef= this.dialog.open(this.callEditDailog);
@@ -121,16 +161,14 @@ OpenDialogAdd(){
        {
         if (result == 'yes') {
           
-          this.projectService.getAll().subscribe((projects) => {
-            this.projects = projects;
-            const projectId = this.projects.map((project) => project.id) as unknown as number;
 
-          this.taskService.update(projectId,this.edit.value).subscribe({
+          this.taskService.update(this.edit.value).subscribe({
             next: (response) => {
               console.log("edit", this.edit.value);
               console.log('Task updated successfully:', response);
               this.toastr.success('Task updated successfully.', 'Success');
               this.getProjects(); 
+              this.getSprintTasks();
               this.dialog.closeAll();
             },
             error: (error) => {
@@ -139,7 +177,7 @@ OpenDialogAdd(){
               this.toastr.error('Error while updating Task.', 'Error');
             }
           });
-        });
+      
                 
         } else if (result == 'no') {
           console.log("Thank you");
@@ -171,6 +209,8 @@ OpenDialogAdd(){
                 this.toastr.success('Task deleted successfully.', 'Success');
                 this.dialog.closeAll();
                 this.getProjects();
+                this.getSprintTasks();
+
               },
               error: (error) => {
                 console.log('Error while deleting Task:', error);
@@ -196,6 +236,7 @@ OpenDialogAdd(){
       next: () => {
         this.toastr.success('Task added successfully.', 'Success');
         this.getProjects();
+        this.getSprintTasks();
         this.dialog.closeAll();
         this.form.reset();
       },

@@ -28,7 +28,11 @@
           <div class="row clearfix">
               <div class="col-lg-12">
                   <div class="card">
-                      <div class="table-responsive">
+                      <div class="table-responsive"*ngFor="let project of projects">
+                        <br>
+                        <ul class="breadcrumb">
+                          <li class="breadcrumb-item">Sprint Tasks {{ project.projectName }}</li>
+                        </ul>
                         <table class="table table-hover product_item_list c_table theme-color mb-0">
                           <thead>
                                   <tr>
@@ -43,27 +47,32 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                  <tr *ngFor="let sprintTask of sprintTasks">
-                                    
-                                      <td><span class="text-muted">{{ sprintTask.taskName }}</span></td>
-                                      <td><span class="text-muted">{{ sprintTask.taskDescription }}</span></td>
-                                      <td><span class="text-muted">{{ sprintTask.taskStatus }}</span></td>
-                                      <td><span class="text-muted">{{ sprintTask.taskDuration }}</span></td>
-                                      <td><span class="text-muted">{{ sprintTask.sprintName }}</span></td>
-                                      <td><span class="text-muted">{{ sprintTask.developerName }}</span></td>
-
-
-                                      <td>
-                                        <a (click)="OpenDialogDetail(sprintTask.id)"class="btn btn-default waves-effect waves-float btn-sm waves-green"><i class="zmdi zmdi-info"></i></a>
-                                        <a (click)="openEditDailog(sprintTask)"class="btn btn-default waves-effect waves-float btn-sm waves-green"><i class="zmdi zmdi-edit"></i></a>
-                                        <a (click)="openDeleteDailog(sprintTask.sprintId ,sprintTask.id)" class="btn btn-default waves-effect waves-float btn-sm waves-red"><i class="zmdi zmdi-delete"></i></a>
-                                      </td>
-                                  
+                                <ng-container *ngIf="project.sprintTasks && project.sprintTasks.length > 0; else noDataTemplate">
+                                  <tr *ngFor="let sprintTask of project.sprintTasks">
+                                    <td><span class="text-muted">{{ sprintTask.taskName }}</span></td>
+                                    <td><span class="text-muted">{{ sprintTask.taskDescription }}</span></td>
+                                    <td><span class="text-muted">{{ sprintTask.taskStatus }}</span></td>
+                                    <td><span class="text-muted">{{ formatTaskDuration(sprintTask.taskDuration) }}</span></td>
+                                    <td><span class="text-muted">{{ sprintTask.sprintName }}</span></td>
+                                    <td><span class="text-muted">{{ sprintTask.developerName }}</span></td>
+                                    <td>
+                                      <a (click)="OpenDialogDetail(sprintTask.id)" class="btn btn-default waves-effect waves-float btn-sm waves-green"><i class="zmdi zmdi-info"></i></a>
+                                      <a (click)="openEditDailog(sprintTask)" class="btn btn-default waves-effect waves-float btn-sm waves-green"><i class="zmdi zmdi-edit"></i></a>
+                                      <a (click)="openDeleteDailog(sprintTask.sprintId ,sprintTask.id)" class="btn btn-default waves-effect waves-float btn-sm waves-red"><i class="zmdi zmdi-delete"></i></a>
+                                    </td>
                                   </tr>
-                                 
+                                </ng-container>
+                                  <ng-template #noDataTemplate>
+                                    <tr>
+                                      <td colspan="7">
+                                        <p class="text-danger">No data available</p>
+                                      </td>
+                                    </tr>
+                                  </ng-template>
                                 
                               </tbody>
-                          </table>
+                            
+                        </table>
                       </div>
                   </div>
                   <div class="card">
@@ -113,26 +122,24 @@
               </mat-select>
               
             </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Select Sprint</mat-label>
-              <mat-select formControlName="sprintId" required>
-              <mat-option *ngFor="let sprint of sprints" [value]="sprint.id">
-                {{sprint.sprintName}}
-              </mat-option>
-              </mat-select>
-              
-            </mat-form-field>
             <mat-form-field>
               <mat-label>Select Project</mat-label>
-            <mat-select formControlName="projectId" required>
-            <mat-option *ngFor="let project of projects" [value]="project.id">
-              {{project.projectName}}
-            </mat-option>
-            </mat-select>
+              <mat-select [(value)]="selectedProjectId"formControlName="projectId" (selectionChange)="getProjects()">
+                <mat-option *ngFor="let project of projects" [value]="project.id">
+                  {{ project.projectName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
             
-          </mat-form-field>
-          
+            <mat-form-field *ngIf="selectedProjectId">
+              <mat-label>Select Sprint</mat-label>
+              <mat-select formControlName="sprintId">
+                <mat-option *ngFor="let sprint of sprints" [value]="sprint.id">
+                  {{ sprint.sprintName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            
                
     
            
@@ -210,7 +217,14 @@
       </mat-select>
       
     </mat-form-field>
-
+    <mat-form-field>
+      <mat-label>Select Project</mat-label>
+      <mat-select formControlName="projectId">
+        <mat-option *ngFor="let project of projects" [value]="project.id">
+          {{ project.projectName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field>
         <mat-label>Select Sprint</mat-label>
       <mat-select formControlName="sprintId" required>

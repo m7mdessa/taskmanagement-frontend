@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<section class="content">
+    <div class="body_scroll">
+      
+        <div class="container-fluid">
+            <div class="row ">
+                <div class="col-lg-4 col-md-12"*ngIf="profile">
+
+                    <div class="card">
+                        <div class="body">
+                          
+                            <small class="text-muted">Email address: </small>
+                            <p>{{profile.email }}</p>
+                            <hr>
+                            <small class="text-muted">Developer name: </small>
+                            <p>{{profile.developerName }}</p>
+                            <hr>
+                            <small class="text-muted">First name: </small>
+                            <p>{{profile.firstName }}</p>
+                            <hr>
+                            <small class="text-muted">Last name: </small>
+                            <p>{{profile.lastName }}</p>
+
+                        </div>
+                    </div>                    
+                </div>
+          
+                <div class="col-lg-8 col-md-12">
+                    <div class="card">
+                      
+                        <div class="body">
+                            <div class="table-responsive"*ngFor="let project of projects">
+                                <br>
+                                <ul class="breadcrumb">
+                                  <li class="breadcrumb-item">Tasks {{ project.projectName }}</li>
+                                </ul>
+                                <table class="table table-hover product_item_list c_table theme-color mb-0">
+                                  <thead>
+                                          <tr>
+                                              <th style="color: #555;">Task Name</th>
+                                              <th style="color: #555;">Task Description</th>
+                                              <th style="color: #555;">Task Duration</th>
+        
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                        <ng-container *ngIf="project.sprintTasks && project.sprintTasks.length > 0; else noDataTemplate">
+
+                                          <tr *ngFor="let sprintTask of project.sprintTasks">
+                                            
+                                              <td><span class="text-muted">{{ sprintTask.taskName }}</span></td>
+                                              <td><span class="text-muted">{{ sprintTask.taskDescription }}</span></td>
+                                              <td><span class="text-muted">{{ formatTaskDuration(sprintTask.taskDuration) }}</span></td>
+                                              
+                                          </tr>
+                                        </ng-container>
+                                        <ng-template #noDataTemplate>
+                                            <tr>
+                                              <td colspan="7">
+                                                <p class="text-danger">No data available</p>
+                                              </td>
+                                            </tr>
+                                          </ng-template>
+                                      </tbody>
+                                  </table>
+                              </div>
+                            
+                            </div>
+                       
+                     
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+</section>
+

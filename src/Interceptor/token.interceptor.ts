@@ -10,14 +10,16 @@ import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  private delayDuration = 3000;
+  private delayDuration = 1000;
 
   constructor(
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   intercept(
@@ -65,6 +67,8 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private handleErrorResponse(error: HttpErrorResponse) {
     if (error.status === 401) {
+      localStorage.clear();
+      this.router.navigate(['']);
       this.toastr.error('Unauthorized access', 'Error');
     } else if (error.status === 403) {
       this.toastr.error('Access forbidden', 'Error');
@@ -72,4 +76,5 @@ export class TokenInterceptor implements HttpInterceptor {
       this.toastr.error('An error occurred', 'Error');
     }
   }
+
 }

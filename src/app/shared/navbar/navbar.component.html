@@ -1,1 +1,42 @@
-<p>navbar works!</p>
+
+<nav class="navbar navbar-expand-lg bg-light shadow-lg"[ngClass]="{ 'sticky-element': isSticky }">
+    <div class="container">
+      <a class="navbar-brand">
+        <span>
+          <h3 class="logo">  
+            DEVELOPER  
+          </h3>
+        </span>
+    </a>
+
+        <div class="collapse navbar-collapse" >
+            <ul class="navbar-nav ms-auto">
+               
+             
+
+        
+                <li class="nav-item">
+                  <a class="nav-link custom-btn custom-border-btn btn" >
+
+                    
+                      <span (click)="logout()">Sing Out</span>
+                  </a>
+               
+              </li>
+            
+         
+
+                <li class="nav-item ms-3"*ngIf="!user">
+                    <a class="nav-link custom-btn custom-border-btn btn" routerLink="/auth/login">Sing In</a>
+                </li>
+                
+                <li class="nav-item ms-3" *ngIf="!user">
+                    <a class="nav-link custom-btn custom-border-btn btn" routerLink="/auth/register">Sing Up</a>
+                </li>
+              
+       
+            </ul>
+        
+        </div>
+    </div>
+</nav>

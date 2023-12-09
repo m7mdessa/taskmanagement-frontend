@@ -19,6 +19,9 @@ export class SprintTaskService {
      return this.http.get<any>(`${this.apiUrl}/Project/${projectId}/SprintTask/${id}`);
    }
 
+   getDeveloperTask(projectId: number,developerId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Project/${projectId}/DeveloperTask/${developerId}`);
+  }
   add(task: any): Observable<any> {
 
     const url = `${this.apiUrl}/Project/CreateSprintTask`; 
@@ -26,9 +29,9 @@ export class SprintTaskService {
     return this.http.post(url, task);
   }
 
-  update(projectId: number,task: any): Observable<any> {
+  update(task: any): Observable<any> {
 
-  const url = `${this.apiUrl}/Project/${projectId}/SprintTask/Update/`; 
+  const url = `${this.apiUrl}/Project/SprintTask/Update/`; 
 
   return this.http.put(url, task);
 

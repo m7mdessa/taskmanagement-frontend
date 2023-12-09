@@ -31,18 +31,23 @@ export class SprintsComponent {
   
 
     
-  getProjects() {
-    this.projectService.getAll().subscribe((projects) => {
-      this.projects = projects;
-      const id = this.projects.map((project) => project.id) as unknown as number;
+    getProjects() {
+      this.projectService.getAll().subscribe((projects) => {
+        this.projects = projects;
+    
+        this.projects.forEach((project) => {
+          const projectId = project.id;
+    
+          this.sprintService.getAll(projectId).subscribe((sprints) => {
+            project.sprints = sprints;
+          });
 
-      this.sprintService.getAll(id).subscribe((sprints) => {
-        this.sprints = sprints;
+
+          
+        });
       });
-  
-    });
-
-  }
+    }
+    
 
 
  

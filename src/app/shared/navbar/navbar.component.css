@@ -1,0 +1,58 @@
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    transition: all 0.3s;
+  }
+  
+  nav.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  .sticky-element {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+ 
+
+  .rounded-circle {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 7px;
+}
+.example-icon {
+  position: relative;
+  left: 1000px;}
+
+.logo {
+  flex: 1 1 auto;
+  position: absolute;
+  left: 275px;
+}
+.menu{
+  margin: 14px;
+    position: absolute;
+    left: 500px;
+}
+.menu .li{
+  margin: 14px;
+    position: absolute;
+    left: 500px;
+}
+
+.navbar-collapse {
+  display: -ms-flexbox!important;
+  display: flex!important;
+  -ms-flex-preferred-size: auto;
+  flex-basis: auto;
+  position: absolute;
+  right: 123px;
+}
+.logo{
+  position: absolute;
+  top: 6px;
+  font-weight: 700;
+}
