@@ -53,7 +53,7 @@
                                       <td><span class="text-muted">{{ developer.city }}</span></td>
                                       <td><span class="text-muted">{{ developer.state }}</span></td>
                                       <td><span class="text-muted">{{ developer.street }}</span></td>
-                                      <td><span class="text-muted">{{ developer.zipcode }}</span></td>
+                                      <td><span class="text-muted">{{ developer.zipCode }}</span></td>
                                       <td><span class="text-muted">{{ developer.country }}</span></td>
 
                                       <td>
@@ -127,44 +127,7 @@
                 <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
                 <mat-error *ngIf="form.get('email')?.hasError('pattern')">Invalid email format</mat-error>
               </mat-form-field>
-              <div class="form-field-spacer"></div>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Enter City</mat-label>
-                <input matInput type="text" placeholder="Enter city name" formControlName="city">
-                <mat-error *ngIf="edit.get('city')?.hasError('required')">City name is required</mat-error>
-              </mat-form-field>
-    
-              <div class="form-field-spacer"></div>
-    
-                 <mat-form-field appearance="outline">
-                <mat-label>Enter Street</mat-label>
-                <input matInput type="text" placeholder="Enter street name" formControlName="street">
-                <mat-error *ngIf="edit.get('street')?.hasError('required')">Street name is required</mat-error>
-              </mat-form-field>
-    
-              <div class="form-field-spacer"></div>  
-              
-              <mat-form-field appearance="outline">
-                <mat-label>Enter State </mat-label>
-                <input matInput type="text" placeholder="Enter state name" formControlName="state">
-                <mat-error *ngIf="edit.get('state')?.hasError('required')">State name is required</mat-error>
-              </mat-form-field>
-    
-              <div class="form-field-spacer"></div> 
-              
-              <mat-form-field appearance="outline">
-                <mat-label>Enter Zip Code</mat-label>
-                <input matInput type="text" placeholder="Enter zip code" formControlName="zipCode">
-                <mat-error *ngIf="edit.get('zipCode')?.hasError('required')">zip code is required</mat-error>
-              </mat-form-field>
-              <div class="form-field-spacer"></div>
-    
-              <mat-form-field appearance="outline">
-                <mat-label>Enter Country</mat-label>
-                <input matInput type="text" placeholder="Enter country name" formControlName="country">
-                <mat-error *ngIf="edit.get('country')?.hasError('required')">country name is required</mat-error>
-              </mat-form-field>
+          
               
               <mat-form-field appearance="outline">
                 <mat-label>Enter password</mat-label>
@@ -222,7 +185,15 @@
     <p><strong>First Name:</strong> {{ developer.firstName }}</p>
     <p><strong>Last Name:</strong> {{ developer.lastName }}</p>
     <p><strong>Email:</strong> {{ developer.email }}</p>
+    <p><strong>City:</strong> {{ developer.city }}</p>
+    <p><strong>State:</strong> {{ developer.state }}</p>
+    <p><strong>Street:</strong> {{ developer.street }}</p>
+    <p><strong>Zip Code:</strong> {{ developer.zipCode }}</p>
+    <p><strong>Country:</strong> {{ developer.country }}</p>
+
   </div>
+
+
   </div>
 </ng-template>
 
