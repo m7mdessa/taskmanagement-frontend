@@ -37,12 +37,15 @@ export class ProjrctsComponent {
  
     form :FormGroup = new FormGroup({
       projectName: new FormControl('',[Validators.required]),
+      projectDescription: new FormControl('',[Validators.required]),
+
    
     });
     
     edit :FormGroup = new FormGroup({
       id: new FormControl(''),
       projectName: new FormControl('',[Validators.required]),
+      projectDescription: new FormControl('',[Validators.required]),
 
     });
 
@@ -66,7 +69,8 @@ OpenDialogAdd(){
     this.edit.setValue({
       id: project.id,
       projectName: project.projectName,
-    
+      projectDescription: project.projectDescription,
+
     });
     const dialogRef= this.dialog.open(this.callEditDailog);
     dialogRef.afterClosed().subscribe((result)=>{

@@ -60,12 +60,7 @@
             
                  </div>
 
-                 
-                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="city"formControlName="city">
-              
-
-                </div>
+               
                 <div *ngIf="registerForm.get('city')?.invalid && (registerForm.get('city')?.dirty || registerForm.get('city')?.touched)"
                 class="error-message">
                 <div *ngIf="registerForm.get('city')?.errors?.['required'] as requiredError"class="text-danger">

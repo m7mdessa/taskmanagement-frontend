@@ -6,6 +6,7 @@ import { DeveloperService } from 'src/app/service/developer.service';
 import { ProjectService } from 'src/app/service/project.service';
 import { SprintService } from 'src/app/service/sprint.service';
 import { SprintTaskService } from 'src/app/service/sprint-task.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-sprint-tasks',
@@ -35,7 +36,6 @@ export class SprintTasksComponent {
     ngOnInit() {
       this.getDevelopers();
       this.getProjects();
-      this.getSprintTasks();
     }
     
     
@@ -44,34 +44,33 @@ export class SprintTasksComponent {
         this.projects = projects;
     
         if (this.selectedProjectId) {
-
           this.sprintService.getAll(this.selectedProjectId).subscribe((sprints) => {
             this.sprints = sprints;
           });
-  
         }
-      });
-    }
-    
-    
-    getSprintTasks() {
-      this.projectService.getAll().subscribe((projects) => {
-        this.projects = projects;
     
         this.projects.forEach((project) => {
           const projectId = project.id;
     
           this.taskService.getAll(projectId).subscribe((sprintTasks) => {
-            project.sprintTasks = sprintTasks;
-            
-            console.log("sprintTasks", sprintTasks);
-
-
+            sprintTasks.forEach((task) => {
+              task.projectId = projectId;
+            });
+        
+            const existingProject = this.projects.find(p => p.id === projectId);
+            if (existingProject) {
+              existingProject.sprintTasks = sprintTasks;
+            } else {
+              project.sprintTasks = sprintTasks;
+              this.projects.push(project);
+            }
           });
         });
+    
       });
     }
     
+  
 
   getDevelopers() {
     this.developerService.getAll().subscribe((developers) => {
@@ -79,27 +78,7 @@ export class SprintTasksComponent {
     });
 
   }
-  formatTaskDuration(taskDuration: number): string {
-    const days = Math.floor(taskDuration / (60 * 24));
-    const hours = Math.floor((taskDuration % (60 * 24)) / 60);
-    const minutes = taskDuration % 60;
 
-    const formattedDuration = [];
-
-    if (days > 0) {
-      formattedDuration.push(`${days}d`);
-    }
-
-    if (hours > 0) {
-      formattedDuration.push(`${hours}h`);
-    }
-
-    if (minutes > 0 || formattedDuration.length === 0) {
-      formattedDuration.push(`${minutes}m`);
-    }
-
-    return formattedDuration.join(' ');
-  }
     form :FormGroup = new FormGroup({
       taskName: new FormControl('',[Validators.required]),
       taskDescription: new FormControl('',[Validators.required]),
@@ -127,19 +106,14 @@ OpenDialogAdd(){
   this.dialog.open(this.callCreateDialog);
   
   }
-  OpenDialogDetail(id: number) {
-    this.projectService.getById(id).subscribe((project) => {
-      // Assuming projectService.getById returns a single project
-      const projectId = project.id;
-  
-      // Now use the projectId to fetch tasks
-      this.taskService.getById(projectId,id).subscribe((sprintTasks) => {
-        this.sprintTasks = sprintTasks;
-  
-        // Open the dialog or perform any other logic with the sprintTasks
-        this.dialog.open(this.callDetailDailog);
-      });
-    });
+
+  OpenDialogDetail(projectId:number,id:number){
+    this.dialog.open(this.callDetailDailog);
+    this.taskService.getById(projectId,id).subscribe( (sprintTask) => {
+        this.sprintTask = sprintTask;
+      
+      });  
+
   }
   
 
@@ -161,7 +135,15 @@ OpenDialogAdd(){
        if(result!=undefined)
        {
         if (result == 'yes') {
-          
+          this.projectService.getAll().subscribe((projects) => {
+            this.projects = projects;
+        
+            this.projects.forEach((project) => {
+              const projectId = project.id 
+              this.edit.get('projectId')?.setValue(projectId);
+
+            });
+          });
 
           this.taskService.update(this.edit.value).subscribe({
             next: (response) => {
@@ -169,7 +151,6 @@ OpenDialogAdd(){
               console.log('Task updated successfully:', response);
               this.toastr.success('Task updated successfully.', 'Success');
               this.getProjects(); 
-              this.getSprintTasks();
               this.dialog.closeAll();
             },
             error: (error) => {
@@ -210,7 +191,6 @@ OpenDialogAdd(){
                 this.toastr.success('Task deleted successfully.', 'Success');
                 this.dialog.closeAll();
                 this.getProjects();
-                this.getSprintTasks();
 
               },
               error: (error) => {
@@ -237,7 +217,6 @@ OpenDialogAdd(){
       next: () => {
         this.toastr.success('Task added successfully.', 'Success');
         this.getProjects();
-        this.getSprintTasks();
         this.dialog.closeAll();
         this.form.reset();
       },

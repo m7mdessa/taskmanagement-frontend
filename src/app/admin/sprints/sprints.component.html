@@ -21,8 +21,7 @@
               </div>
           </div>
       </div>
-      <br>
-      <br>
+
 
       <div class="container-fluid">
           <div class="row clearfix">
@@ -33,13 +32,13 @@
                         <br>
                         <ul class="breadcrumb">
                           <li class="breadcrumb-item">Sprints {{ project.projectName }}</li>
-                          <li class="breadcrumb-item">project {{ project.id }}</li>
 
                         </ul>
                         <table class="table table-hover product_item_list c_table theme-color mb-0">
                               <thead>
                                   <tr>
                                       <th style="color: #555;">Sprint Name</th>
+                                      <th style="color: #555;">Sprint Description</th>
                                       <th style="color: #555;">Start Date</th>
                                       <th style="color: #555;">End Date</th>
                                       <th style="color: #555;">Project Name</th>
@@ -53,6 +52,7 @@
                                   <tr *ngFor="let sprint of project.sprints">
                                     
                                       <td><span class="text-muted">{{ sprint.sprintName }}</span></td>
+                                      <td><span class="text-muted">{{ sprint.sprintDescription }}</span></td>
                                       <td><span class="text-muted">{{ sprint.startDate| date: 'shortDate'  }}</span></td>
                                       <td><span class="text-muted">{{ sprint.endDate | date: 'shortDate' }}</span></td>
                                       <td><span class="text-muted">{{ sprint.projectName }}</span></td>
@@ -97,10 +97,15 @@
        
             <mat-form-field appearance="outline">
             <mat-label>Enter Sprint Name</mat-label>
-            <textarea matInput type="text" placeholder="Enter sprint Name" formControlName="sprintName"></textarea>
-            <mat-error *ngIf="form.get('projectName')?.hasError('required')">sprint name is required</mat-error>
+            <textarea matInput type="text" placeholder="Enter sprint name" formControlName="sprintName"></textarea>
+            <mat-error *ngIf="form.get('sprintName')?.hasError('required')">sprint name is required</mat-error>
             </mat-form-field>
 
+             <mat-form-field appearance="outline">
+              <mat-label>Enter Sprint Description</mat-label>
+              <textarea matInput type="text" placeholder="Enter sprint description" formControlName="sprintDescription"></textarea>
+              <mat-error *ngIf="form.get('sprintDescription')?.hasError('required')">sprint description is required</mat-error>
+              </mat-form-field>
       
               <mat-form-field>
                 <mat-label>Period</mat-label>
@@ -149,12 +154,13 @@
   
 
   <div *ngIf="sprint">
+
     <p><strong>Sprint Name:</strong> {{ sprint.sprintName }}</p>
+    <p><strong>Sprint Description:</strong> {{ sprint.sprintDescription }}</p>
     <p><strong>Start Date :</strong> {{ sprint.startDate| date: 'shortDate'  }}</p>
     <p><strong>End Date:</strong> {{ sprint.endDate | date: 'shortDate' }}</p>
     <p><strong>Project Name:</strong> {{ sprint.projectName }}</p>
-
-  
+    
   </div>
   </div>
 </ng-template>
@@ -167,12 +173,18 @@
 <form class="example-container" [formGroup]="edit">
 
   
-    <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline">
         <mat-label>Enter Sprint Name</mat-label>
         <textarea matInput type="text" placeholder="Enter sprint Name" formControlName="sprintName"></textarea>
         <mat-error *ngIf="edit.get('projectName')?.hasError('required')">sprint name is required</mat-error>
         </mat-form-field>
-        
+
+        <mat-form-field appearance="outline">
+          <mat-label>Enter Sprint Description</mat-label>
+          <textarea matInput type="text" placeholder="Enter sprint description" formControlName="sprintDescription"></textarea>
+          <mat-error *ngIf="form.get('sprintDescription')?.hasError('required')">sprint description is required</mat-error>
+          </mat-form-field>
+
 <div class="dialog-footer">
 <button mat-raised-button color="primary"  mat-dialog-close="yes" >Edit</button>
 </div>

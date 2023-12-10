@@ -12,12 +12,9 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class RegisterComponent implements OnInit{
   
-  departments: any[] = [];
-  usernameMessage: string ='';
-  emailMessage: string ='';
+
   usernameAlreadyExists: boolean = false;
   emailAlreadyExists: boolean = false;
-  registerSuccess: boolean = false;
 
   constructor( private router: Router, private authService: AuthService,private toastr: ToastrService) {}
   
@@ -31,7 +28,6 @@ export class RegisterComponent implements OnInit{
     lastName: new FormControl('', Validators.required),
     userName: new FormControl('', Validators.required),
     email: new FormControl('',[Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
-    city:new FormControl( '', [Validators.required, ]),
     password:new FormControl( '', [Validators.required, Validators.minLength(8), ]),
     repeatPassword: new FormControl('', [Validators.required, Validators.minLength(8) ]),
 
@@ -46,8 +42,7 @@ export class RegisterComponent implements OnInit{
   }
   
   register(): void {
-    //this.showValidations = true;
-   // this.registerSuccess = false;
+ 
     this.usernameAlreadyExists = false;
     this.emailAlreadyExists = false;
 //debugger;
@@ -63,8 +58,7 @@ export class RegisterComponent implements OnInit{
       },
       (error: HttpErrorResponse) => {
       //  debugger;
-        this.registerSuccess = false;
-        console.log(error);
+       
 
         if (error.error && error.error.error) {
           if (error.error.error === 'username already exists') {

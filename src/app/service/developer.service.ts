@@ -19,6 +19,14 @@ export class DeveloperService {
     return this.http.get<any>(`${this.apiUrl}/GetDeveloperById/${id}`);
   }
 
+  getProfile(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/GetProfile/${id}`);
+  }
+
+  getDeveloperTask(projectId: number,developerId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/Project/${projectId}/DeveloperTask/${developerId}`);
+  }
+
   add(developer: any): Observable<any> {
     return this.http.post(this.apiUrl, developer);
   }
@@ -27,6 +35,16 @@ export class DeveloperService {
     return this.http.put(`${this.apiUrl}/Update/`, developer);
   }
 
+  updateProfile(developer: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/UpdateProfile/`, developer);
+  }
+
+ updatePassword(developer: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/UpdatePassword/`, developer);
+  }
+
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/Delete/${id}`);
-  }}
+  }
+
+}

@@ -14,7 +14,10 @@
 
                     <div class="card">
                         <div class="body">
-                          
+                            <button mat-fab color="primary"class="edit-button"(click)="openEditDailog()" aria-label="Example icon button with a delete icon">
+                                <mat-icon  class="icon">edit</mat-icon>
+                                
+                              </button>
                             <small class="text-muted">Email address: </small>
                             <p>{{profile.email }}</p>
                             <hr>
@@ -26,7 +29,21 @@
                             <hr>
                             <small class="text-muted">Last name: </small>
                             <p>{{profile.lastName }}</p>
-
+                            <hr>
+                            <small class="text-muted">City: </small>
+                            <p>{{profile.city }}</p>
+                            <hr>
+                            <small class="text-muted">Street: </small>
+                            <p>{{profile.street }}</p>
+                            <hr>
+                            <small class="text-muted">State: </small>
+                            <p>{{profile.state }}</p>
+                            <hr>
+                            <small class="text-muted">Zip Code: </small>
+                            <p>{{profile.zipCode }}</p>
+                            <hr>
+                            <small class="text-muted">Country: </small>
+                            <p>{{profile.country }}</p>
                         </div>
                     </div>                    
                 </div>
@@ -56,7 +73,7 @@
                                             
                                               <td><span class="text-muted">{{ sprintTask.taskName }}</span></td>
                                               <td><span class="text-muted">{{ sprintTask.taskDescription }}</span></td>
-                                              <td><span class="text-muted">{{ formatTaskDuration(sprintTask.taskDuration) }}</span></td>
+                                              <td><span class="text-muted">{{ sprintTask.taskDuration}}</span></td>
                                               
                                           </tr>
                                         </ng-container>
@@ -83,3 +100,115 @@
         
 </section>
 
+<ng-template #callEditDailog>
+    <div style="padding:15px">
+<button class="btn btn-primary m-1"  (click)="openInformationDailog(profile)">Update Information </button>
+<button class="btn btn-danger m-1"  (click)="openPasswordDailog()">Update Password</button> 
+</div>
+</ng-template>  
+      
+<ng-template #callInformationDailog>
+    <div class="mat-dialog-container">
+    <div class="dialog-header">
+    <h2>Update Information</h2>
+    </div>
+    <form class="example-container" [formGroup]="edit">
+    
+        
+            <mat-form-field appearance="outline">
+                <mat-label>Enter First Name</mat-label>
+                <input matInput type="text" placeholder="Enter first name" formControlName="firstName">
+                <mat-error *ngIf="edit.get('firstName')?.hasError('required')">First name is required</mat-error>
+              </mat-form-field>
+              
+              <div class="form-field-spacer">
+              
+              </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Last Name</mat-label>
+                <input matInput type="text" placeholder="Enter last name" formControlName="lastName">
+                <mat-error *ngIf="edit.get('lastName')?.hasError('required')">Last name is required</mat-error>
+              </mat-form-field>
+              <div class="form-field-spacer"></div>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter City</mat-label>
+                <input matInput type="text" placeholder="Enter city name" formControlName="city">
+                <mat-error *ngIf="edit.get('city')?.hasError('required')">City name is required</mat-error>
+              </mat-form-field>
+
+              <div class="form-field-spacer"></div>
+
+                 <mat-form-field appearance="outline">
+                <mat-label>Enter Street</mat-label>
+                <input matInput type="text" placeholder="Enter street name" formControlName="street">
+                <mat-error *ngIf="edit.get('street')?.hasError('required')">Street name is required</mat-error>
+              </mat-form-field>
+
+              <div class="form-field-spacer"></div>  
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Enter State </mat-label>
+                <input matInput type="text" placeholder="Enter state name" formControlName="state">
+                <mat-error *ngIf="edit.get('state')?.hasError('required')">State name is required</mat-error>
+              </mat-form-field>
+
+              <div class="form-field-spacer"></div> 
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Zip Code</mat-label>
+                <input matInput type="text" placeholder="Enter zip code" formControlName="zipCode">
+                <mat-error *ngIf="edit.get('zipCode')?.hasError('required')">zip code is required</mat-error>
+              </mat-form-field>
+              <div class="form-field-spacer"></div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Country</mat-label>
+                <input matInput type="text" placeholder="Enter country name" formControlName="country">
+                <mat-error *ngIf="edit.get('country')?.hasError('required')">country name is required</mat-error>
+              </mat-form-field>
+              
+    <div class="dialog-footer">
+    <button mat-raised-button color="primary"  mat-dialog-close="yes" >Update</button>
+    </div>
+    </form>
+    </div>
+    </ng-template>
+
+    <ng-template #callPasswordDailog>
+        <div class="mat-dialog-container">
+        <div class="dialog-header">
+        <h2>Update Password </h2>
+        </div>
+        <form class="example-container" [formGroup]="passwordForm">
+        
+            
+            <mat-form-field appearance="outline">
+                <mat-label>Enter New Password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="new password" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="passwordForm.get('password')?.hasError('required')">new password is required</mat-error>
+                <mat-error *ngIf="passwordForm.get('password')?.hasError('minlength')">new Password must be at least 8 </mat-error>
+      
+              </mat-form-field>
+              <div class="form-field-spacer"></div>
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Repeat Password</mat-label>
+                <input matInput [type]="hidee ? 'password' : 'text'" placeholder="repeat password" formControlName="confirmPassword"(change)="matchError()">
+                <button mat-icon-button matSuffix (click)="hidee = !hidee" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidee">
+                  <mat-icon>{{hidee ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('required')">repeat password is required</mat-error>
+                <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('minlength')">repeat Password must be at least 8</mat-error>
+      
+                <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('misMatch')">Passwords do not match</mat-error>
+      
+              </mat-form-field>
+      
+        <div class="dialog-footer">
+        <button mat-raised-button color="primary"  mat-dialog-close="yes" >Update</button>
+        </div>
+     </form>
+</div>
+ </ng-template>

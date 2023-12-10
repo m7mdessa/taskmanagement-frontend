@@ -1,7 +1,7 @@
 
 
 <app-sidebar></app-sidebar>
-<section class="content">lkm,.
+<section class="content">
   <div class="body_scroll">
       <div class="block-header">
           <div class="row">
@@ -21,8 +21,7 @@
               </div>
           </div>
       </div>
-      <br>
-      <br>
+ 
 
       <div class="container-fluid">
           <div class="row clearfix">
@@ -36,6 +35,11 @@
                                       <th style="color: #555;">First Name</th>
                                       <th style="color: #555;">Last Name</th>
                                       <th style="color: #555;" data-breakpoints="sm xs">Email</th>
+                                      <th style="color: #555;" data-breakpoints="sm xs">City</th>
+                                      <th style="color: #555;" data-breakpoints="sm xs">State</th>
+                                      <th style="color: #555;" data-breakpoints="sm xs">Street</th>
+                                      <th style="color: #555;" data-breakpoints="sm xs">Zip Code</th>
+                                      <th style="color: #555;" data-breakpoints="sm xs">Country</th>
 
                                       <th  style="color: #555;" data-breakpoints="sm xs md">Action</th>
                                   </tr>
@@ -46,7 +50,11 @@
                                       <td><span class="text-muted">{{ developer.firstName }}</span></td>
                                       <td><span class="text-muted">{{ developer.lastName }}</span></td>
                                       <td><span class="text-muted">{{ developer.email }}</span></td>
-
+                                      <td><span class="text-muted">{{ developer.city }}</span></td>
+                                      <td><span class="text-muted">{{ developer.state }}</span></td>
+                                      <td><span class="text-muted">{{ developer.street }}</span></td>
+                                      <td><span class="text-muted">{{ developer.zipcode }}</span></td>
+                                      <td><span class="text-muted">{{ developer.country }}</span></td>
 
                                       <td>
                                         <a (click)="OpenDialogDetail(developer.id)"class="btn btn-default waves-effect waves-float btn-sm waves-green"><i class="zmdi zmdi-info"></i></a>
@@ -76,13 +84,23 @@
       <div class="dialog-header">
         <h2>Add Developer</h2>
       </div>
+      <div *ngIf="emailAlreadyExists" class="text-danger">
+        email already exists
+      </div>
+      <br>
+      
+      <div *ngIf="usernameAlreadyExists" class="text-danger">
+        developer name already exists
+      
+      </div>
+      <br>
       <form class="example-container" [formGroup]="form">
        
         
         <mat-form-field appearance="outline">
           <mat-label>Enter Developer Name</mat-label>
-          <input matInput type="text" placeholder="Enter user name" formControlName="developerName">
-          <mat-error *ngIf="form.get('developerName')?.hasError('required')">Developer name is required</mat-error>
+          <input matInput type="text" placeholder="Enter user name" formControlName="userName">
+          <mat-error *ngIf="form.get('userName')?.hasError('required')">Developer name is required</mat-error>
         </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -109,7 +127,45 @@
                 <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
                 <mat-error *ngIf="form.get('email')?.hasError('pattern')">Invalid email format</mat-error>
               </mat-form-field>
+              <div class="form-field-spacer"></div>
 
+              <mat-form-field appearance="outline">
+                <mat-label>Enter City</mat-label>
+                <input matInput type="text" placeholder="Enter city name" formControlName="city">
+                <mat-error *ngIf="edit.get('city')?.hasError('required')">City name is required</mat-error>
+              </mat-form-field>
+    
+              <div class="form-field-spacer"></div>
+    
+                 <mat-form-field appearance="outline">
+                <mat-label>Enter Street</mat-label>
+                <input matInput type="text" placeholder="Enter street name" formControlName="street">
+                <mat-error *ngIf="edit.get('street')?.hasError('required')">Street name is required</mat-error>
+              </mat-form-field>
+    
+              <div class="form-field-spacer"></div>  
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Enter State </mat-label>
+                <input matInput type="text" placeholder="Enter state name" formControlName="state">
+                <mat-error *ngIf="edit.get('state')?.hasError('required')">State name is required</mat-error>
+              </mat-form-field>
+    
+              <div class="form-field-spacer"></div> 
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Zip Code</mat-label>
+                <input matInput type="text" placeholder="Enter zip code" formControlName="zipCode">
+                <mat-error *ngIf="edit.get('zipCode')?.hasError('required')">zip code is required</mat-error>
+              </mat-form-field>
+              <div class="form-field-spacer"></div>
+    
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Country</mat-label>
+                <input matInput type="text" placeholder="Enter country name" formControlName="country">
+                <mat-error *ngIf="edit.get('country')?.hasError('required')">country name is required</mat-error>
+              </mat-form-field>
+              
               <mat-form-field appearance="outline">
                 <mat-label>Enter password</mat-label>
                 <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter password" formControlName="password">
@@ -199,6 +255,45 @@
             <mat-label>Enter Email</mat-label>
             <input matInput type="email" placeholder="Enter email" formControlName="email" readonly>
             
+          </mat-form-field>
+
+          <div class="form-field-spacer"></div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Enter City</mat-label>
+            <input matInput type="text" placeholder="Enter city name" formControlName="city">
+            <mat-error *ngIf="edit.get('city')?.hasError('required')">City name is required</mat-error>
+          </mat-form-field>
+
+          <div class="form-field-spacer"></div>
+
+             <mat-form-field appearance="outline">
+            <mat-label>Enter Street</mat-label>
+            <input matInput type="text" placeholder="Enter street name" formControlName="street">
+            <mat-error *ngIf="edit.get('street')?.hasError('required')">Street name is required</mat-error>
+          </mat-form-field>
+
+          <div class="form-field-spacer"></div>  
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Enter State </mat-label>
+            <input matInput type="text" placeholder="Enter state name" formControlName="state">
+            <mat-error *ngIf="edit.get('state')?.hasError('required')">State name is required</mat-error>
+          </mat-form-field>
+
+          <div class="form-field-spacer"></div> 
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Enter Zip Code</mat-label>
+            <input matInput type="text" placeholder="Enter zip code" formControlName="zipCode">
+            <mat-error *ngIf="edit.get('zipCode')?.hasError('required')">zip code is required</mat-error>
+          </mat-form-field>
+          <div class="form-field-spacer"></div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Enter Country</mat-label>
+            <input matInput type="text" placeholder="Enter country name" formControlName="country">
+            <mat-error *ngIf="edit.get('country')?.hasError('required')">country name is required</mat-error>
           </mat-form-field>
           
 <div class="dialog-footer">

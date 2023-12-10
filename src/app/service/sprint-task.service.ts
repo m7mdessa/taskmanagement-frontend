@@ -19,9 +19,7 @@ export class SprintTaskService {
      return this.http.get<any>(`${this.apiUrl}/Project/${projectId}/SprintTask/${id}`);
    }
 
-   getDeveloperTask(projectId: number,developerId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/Project/${projectId}/DeveloperTask/${developerId}`);
-  }
+  
   add(task: any): Observable<any> {
 
     const url = `${this.apiUrl}/Project/CreateSprintTask`; 

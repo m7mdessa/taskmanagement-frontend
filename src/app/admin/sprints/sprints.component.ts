@@ -56,12 +56,15 @@ export class SprintsComponent {
       startDate: new FormControl('',[Validators.required]),
       endDate: new FormControl('',[Validators.required]),
       projectId: new FormControl('',[Validators.required]),
+      sprintDescription: new FormControl('',[Validators.required]),
+
     });
 
     edit :FormGroup = new FormGroup({
       id: new FormControl(''),
       sprintName: new FormControl('',[Validators.required]),
       projectId: new FormControl('',[Validators.required]),
+      sprintDescription: new FormControl('',[Validators.required]),
 
     });
 
@@ -85,6 +88,8 @@ OpenDialogAdd(){
       id: sprint.id,
       projectId: sprint.projectId,
       sprintName: sprint.sprintName,
+      sprintDescription: sprint.sprintDescription,
+
     
     });
     const dialogRef= this.dialog.open(this.callEditDailog);

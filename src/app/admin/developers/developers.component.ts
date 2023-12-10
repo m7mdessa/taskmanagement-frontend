@@ -19,6 +19,8 @@ export class DevelopersComponent {
   developer: any;
   hide = true;
   hidee = true;
+  emailAlreadyExists: boolean = false;
+  usernameAlreadyExists: boolean = false;
 
     constructor(private developerService: DeveloperService,private dialog:MatDialog,private toastr: ToastrService) {}
   
@@ -37,10 +39,15 @@ export class DevelopersComponent {
 
  
     form :FormGroup = new FormGroup({
-      developerName: new FormControl('',[Validators.required]),
+      userName: new FormControl('',[Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl('',[Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
+      city: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      street: new FormControl('', [Validators.required]),
+      zipCode: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
       confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
   
@@ -51,7 +58,14 @@ export class DevelopersComponent {
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl('',[Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]),
+      city: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      street: new FormControl('', [Validators.required]),
+      zipCode: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
     });
+
+
     matchError() {
       if (this.form.controls['password'].value === this.form.controls['confirmPassword'].value) {
         this.form.controls['confirmPassword'].setErrors(null);
@@ -59,6 +73,7 @@ export class DevelopersComponent {
         this.form.controls['confirmPassword'].setErrors({ misMatch: true });
       }
     }
+    
   
 OpenDialogAdd(){
     
@@ -82,7 +97,11 @@ OpenDialogAdd(){
       firstName: developer.firstName,
       lastName: developer.lastName,
       email: developer.email,
-    
+      city: developer.city,
+      state: developer.state,
+      street: developer.street,
+      zipCode: developer.zipCode,
+      country: developer.country,
     });
     
     const dialogRef= this.dialog.open(this.callEditDailog);
@@ -160,10 +179,23 @@ OpenDialogAdd(){
         this.dialog.closeAll();      
         this.form.reset();
 
-      },err=>{
-        
-        this.toastr.error('Something went wrong !!', 'error');
-  
+      },(error) => {
+        console.log( this.form.value);
+
+        console.log('Error while add employee:', error);
+          this.toastr.error('Error while add employee.', 'Error'); 
+          if (error.error && error.error.error) {
+            if (error.error.error === 'email already exists') {
+              this.emailAlreadyExists = true;
+            }
+          } 
+          if (error.error && error.error.error) {
+            if (error.error.error === 'developer name already exists') {
+              this.usernameAlreadyExists = true;
+            }
+          
+          }
+
       });
     }
 }

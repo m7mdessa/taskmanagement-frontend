@@ -21,8 +21,7 @@
               </div>
           </div>
       </div>
-      <br>
-      <br>
+   
 
       <div class="container-fluid">
           <div class="row clearfix">
@@ -33,7 +32,8 @@
                           <thead>
                                   <tr>
                                       <th style="color: #555;">Project Name</th>
-                                     
+                                      <th style="color: #555;">Project Description </th>
+
 
                                       <th  style="color: #555;" data-breakpoints="sm xs md">Action</th>
                                   </tr>
@@ -42,7 +42,8 @@
                                   <tr *ngFor="let project of projects">
                                     
                                       <td><span class="text-muted">{{ project.projectName }}</span></td>
-                                      
+                                      <td><span class="text-muted">{{ project.projectDescription }}</span></td>
+
 
 
                                       <td>
@@ -76,12 +77,17 @@
       <form class="example-container" [formGroup]="form">
        
             <mat-form-field appearance="outline">
-            <mat-label>Enter project Name</mat-label>
+            <mat-label>Enter Project Name</mat-label>
             <textarea matInput type="text" placeholder="Enter project Name" formControlName="projectName"></textarea>
             <mat-error *ngIf="form.get('projectName')?.hasError('required')">project name is required</mat-error>
             </mat-form-field>
             
-         
+            <mat-form-field appearance="outline">
+              <mat-label>Enter Project Description</mat-label>
+              <textarea matInput type="text" placeholder="Enter project description" formControlName="projectDescription"></textarea>
+              <mat-error *ngIf="form.get('projectDescription')?.hasError('required')">project description is required</mat-error>
+              </mat-form-field>
+              
     
         <div class="dialog-footer">
           <button mat-raised-button color="primary" (click)="add()" [disabled]="!form.valid">Add</button>
@@ -110,7 +116,8 @@
 
   <div *ngIf="project">
     <p><strong>Project Name:</strong> {{ project.projectName }}</p>
-  
+    <p><strong>Project Description:</strong> {{ project.projectDescription }}</p>
+
   </div>
   </div>
 </ng-template>
@@ -127,6 +134,12 @@
         <textarea matInput type="text" placeholder="Enter project Name" formControlName="projectName"></textarea>
         <mat-error *ngIf="edit.get('projectName')?.hasError('required')">project name is required</mat-error>
         </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Enter Project Description</mat-label>
+          <textarea matInput type="text" placeholder="Enter project description" formControlName="projectDescription"></textarea>
+          <mat-error *ngIf="form.get('projectDescription')?.hasError('required')">project description is required</mat-error>
+          </mat-form-field>
 
 <div class="dialog-footer">
 <button mat-raised-button color="primary"  mat-dialog-close="yes" >Edit</button>
