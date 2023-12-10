@@ -32,7 +32,7 @@ export class SprintTasksComponent {
       ,  private projectService: ProjectService ,private toastr: ToastrService,private dialog:MatDialog) {}
   
  
-    ngOnInit(): void {
+    ngOnInit() {
       this.getDevelopers();
       this.getProjects();
       this.getSprintTasks();
@@ -63,6 +63,7 @@ export class SprintTasksComponent {
     
           this.taskService.getAll(projectId).subscribe((sprintTasks) => {
             project.sprintTasks = sprintTasks;
+            
             console.log("sprintTasks", sprintTasks);
 
 
