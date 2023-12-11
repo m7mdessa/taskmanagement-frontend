@@ -5,6 +5,7 @@ import { ProjrctsComponent } from './projrcts/projrcts.component';
 import { SprintsComponent } from './sprints/sprints.component';
 import { SprintTasksComponent } from './sprint-tasks/sprint-tasks.component';
 import { DevelopersComponent } from './developers/developers.component';
+import { UsersLoginsComponent } from './userslogins/userslogins.component';
 
 const routes: Routes = [  
 
@@ -19,9 +20,8 @@ const routes: Routes = [
 {path:'Developers', component:DevelopersComponent},
 
 
-//{path:'Users-Logins', component:UsersLoginsComponent},
+{path:'Users-Logins', component:UsersLoginsComponent},
 
-//{path:'Roles', component:RolesComponent},
 
 
 ];

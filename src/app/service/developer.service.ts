@@ -15,8 +15,19 @@ export class DeveloperService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
+
+  getUserLogins(id: any): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/Project/${id}/Sprints`);
+    
+   }
+
+   
   getById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/GetDeveloperById/${id}`);
+  }
+  
+  getUserLoginById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/GetUserLoginById/${id}`);
   }
 
   getProfile(id: number): Observable<any> {
@@ -45,6 +56,10 @@ export class DeveloperService {
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/Delete/${id}`);
+  }
+
+  deleteUserLogin(developerId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/DeleteUserLogin/${developerId}`);
   }
 
 }

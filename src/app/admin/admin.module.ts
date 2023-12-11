@@ -9,6 +9,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DevelopersComponent } from './developers/developers.component';
 import { SprintTasksComponent } from './sprint-tasks/sprint-tasks.component';
+import { UsersLoginsComponent } from './userslogins/userslogins.component';
 
 
 @NgModule({
@@ -19,12 +20,13 @@ import { SprintTasksComponent } from './sprint-tasks/sprint-tasks.component';
     DashboardComponent,
     DevelopersComponent,
     SprintTasksComponent,
+    UsersLoginsComponent
 
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
 
   ]
 })

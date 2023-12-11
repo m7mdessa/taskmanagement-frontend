@@ -73,6 +73,7 @@ OpenDialogAdd(){
   this.dialog.open(this.callCreateDialog);
   
   }
+  
   OpenDialogDetail(projectId:number,id:number){
     
     this.dialog.open(this.callDetailDailog);
