@@ -30,9 +30,6 @@ export class SprintTasksComponent {
 
   validationErrors: string = '';
 
-   taskNameValidationErrors: string = '';
-   taskDescriptionValidationErrors: string = '';
-
     constructor(private taskService: SprintTaskService,  private sprintService: SprintService,  private developerService: DeveloperService
       ,  private projectService: ProjectService ,private toastr: ToastrService,private dialog:MatDialog) {}
   
@@ -85,7 +82,7 @@ export class SprintTasksComponent {
 
     form :FormGroup = new FormGroup({
       taskName: new FormControl(),
-      taskDescription: new FormControl(),
+      taskDescription: new FormControl('',[Validators.required]),
       taskDuration: new FormControl('',[Validators.required]),
       sprintId: new FormControl('',[Validators.required]),
       developerId: new FormControl('',[Validators.required]),
@@ -237,6 +234,7 @@ OpenDialogAdd(){
         } else {
           this.validationErrors = 'An unexpected error occurred.';
         }
+        this.toastr.error('Something went wrong!', 'Error');
       }
     });
     
