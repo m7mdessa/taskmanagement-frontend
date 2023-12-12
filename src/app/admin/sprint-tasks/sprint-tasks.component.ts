@@ -28,6 +28,10 @@ export class SprintTasksComponent {
 
   selectedProjectId: any;
 
+  validationErrors: string = '';
+
+   taskNameValidationErrors: string = '';
+   taskDescriptionValidationErrors: string = '';
 
     constructor(private taskService: SprintTaskService,  private sprintService: SprintService,  private developerService: DeveloperService
       ,  private projectService: ProjectService ,private toastr: ToastrService,private dialog:MatDialog) {}
@@ -80,8 +84,8 @@ export class SprintTasksComponent {
   }
 
     form :FormGroup = new FormGroup({
-      taskName: new FormControl('',[Validators.required]),
-      taskDescription: new FormControl('',[Validators.required]),
+      taskName: new FormControl(),
+      taskDescription: new FormControl(),
       taskDuration: new FormControl('',[Validators.required]),
       sprintId: new FormControl('',[Validators.required]),
       developerId: new FormControl('',[Validators.required]),
@@ -93,7 +97,7 @@ export class SprintTasksComponent {
     edit :FormGroup = new FormGroup({
       id: new FormControl(''),
       sprintId: new FormControl('',[Validators.required]),
-      taskName: new FormControl('',[Validators.required]),
+      taskName: new FormControl(''),
       taskDescription: new FormControl('',[Validators.required]),
       developerId: new FormControl('',[Validators.required]),
       taskStatus: new FormControl('',[Validators.required]),
@@ -220,10 +224,23 @@ OpenDialogAdd(){
         this.dialog.closeAll();
         this.form.reset();
       },
-      error: () => {
-        this.toastr.error('Something went wrong!', 'Error');
+      error: (error) => {
+
+        if (error.status === 400) {
+          if (Array.isArray(error.error)) {
+            this.validationErrors =  error.error.join(', ');
+          } else if (typeof error.error === 'string') {
+            this.validationErrors =  error.error;
+          } else {
+            this.validationErrors = 'An unexpected validation error occurred.';
+          }
+        } else {
+          this.validationErrors = 'An unexpected error occurred.';
+        }
       }
     });
     
     }
+
+    
 }

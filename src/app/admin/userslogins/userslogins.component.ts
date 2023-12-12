@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-//import * as CryptoJS from 'crypto-js';
+import * as CryptoJS from 'crypto-js';
 import { ToastrService } from 'ngx-toastr'; 
 import { MatDialog } from '@angular/material/dialog';
 import { UserloginService } from 'src/app/service/userlogin.service';
@@ -28,7 +28,11 @@ export class UsersLoginsComponent implements OnInit {
  
 
   }
-
+  displayPassword(password: string): string {
+    const hashedPassword = CryptoJS.SHA256(password).toString();
+    return hashedPassword;
+  }
+ 
   getDevelopers() {
     this.developerService.getAll().subscribe((developers) => {
       this.developers = developers;
@@ -91,7 +95,4 @@ export class UsersLoginsComponent implements OnInit {
 
 }
 
-function hashPassword(password: any, string: any) {
-  throw new Error('Function not implemented.');
-}
 

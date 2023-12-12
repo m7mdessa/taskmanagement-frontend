@@ -98,14 +98,21 @@
             <mat-form-field appearance="outline">
             <mat-label>Enter Task Name</mat-label>
             <textarea matInput type="text" placeholder="Enter Task Name" formControlName="taskName"></textarea>
-            <mat-error *ngIf="form.get('taskName')?.hasError('required')">Task name is required</mat-error>
+           
             </mat-form-field>
-            
+          
+              <div class="text-danger">
+                {{ validationErrors }}
+              </div>    
+              <br>   
             <mat-form-field appearance="outline">
             <mat-label>Enter Task Description</mat-label>
             <textarea matInput type="text" placeholder="Enter Task Name" formControlName="taskDescription"></textarea>
-            <mat-error *ngIf="form.get('taskDescription')?.hasError('required')">Task Description is required</mat-error>
             </mat-form-field>
+            <div class="text-danger">
+              {{ validationErrors }}
+            </div>    
+            <br>   
             <mat-form-field appearance="outline">
               <mat-label>Enter Task Duration</mat-label>
               <textarea matInput type="text" placeholder="Enter Task Duration" formControlName="taskDuration"></textarea>
@@ -187,10 +194,10 @@
 </div>
 <form class="example-container" [formGroup]="edit">
 
-  <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline">
     <mat-label>Enter Task Name</mat-label>
     <textarea matInput type="text" placeholder="Enter Task Name" formControlName="taskName"></textarea>
-    <mat-error *ngIf="edit.get('taskName')?.hasError('required')">Task name is required</mat-error>
+    
     </mat-form-field>
     
     <mat-form-field appearance="outline">

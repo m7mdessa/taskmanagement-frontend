@@ -44,7 +44,7 @@
 
                                   <tr *ngFor="let userLogin of developer.userLogins">
                                     <td><span class="text-muted">{{ userLogin.userName }}</span></td>
-                                    <td><span class="text-muted">{{ userLogin.password }}</span></td>
+                                    <td><span class="text-muted">{{ displayPassword(userLogin.password) }}</span></td>
 
                                     <td><span class="text-muted">{{ userLogin.roleName }}</span></td>
 
